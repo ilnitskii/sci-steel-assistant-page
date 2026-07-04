@@ -1,6 +1,6 @@
 {
   "systemName": "Sci-Steel Assistant",
-  "subtitle": "Гибридная RAG база знаний металлургии",
+  "subtitle": "ИИ-агент, гибридный RAG и граф знаний для металлургии",
   "version": "hackathon architecture demo",
   "nodes": [
     {
@@ -10,7 +10,7 @@
       "layer": "experience",
       "x": 6,
       "y": 42,
-      "description": "Пользовательский вопрос, поисковая фраза или запрос Deep Research из интерфейса (Django).",
+      "description": "Пользовательский вопрос, поисковая фраза или исследовательская задача из интерфейса.",
       "evidence": "streamlit_version/streamlit_app.py, navigate/views.py"
     },
     {
@@ -20,7 +20,7 @@
       "layer": "control",
       "x": 22,
       "y": 42,
-      "description": "Разводит запрос по режимам: строгий keyword-only поиск, semantic retrieval, hybrid RAG или Deep Research workflow.",
+      "description": "Разводит запрос по режимам: строгий keyword-only поиск, semantic retrieval, hybrid RAG или автономное исследование агентом.",
       "evidence": "streamlit_version/app/retrieval.py, navigate/ai_proc.py"
     },
     {
@@ -65,12 +65,12 @@
     },
     {
       "id": "llm",
-      "label": "LLM Generator",
+      "label": "Local LLM",
       "type": "generation",
       "layer": "generation",
       "x": 86,
       "y": 42,
-      "description": "OpenAI-compatible Chat Completions: локальная LM Studio модель или внешний endpoint. Ответ строится с пронумерованными источниками.",
+      "description": "OpenAI-compatible Chat Completions: локальная небольшая LLM или внешний endpoint. Ответ строится с пронумерованными источниками.",
       "evidence": "streamlit_version/app/rag_chat.py, navigate/llm_client.py"
     },
     {
@@ -84,24 +84,24 @@
       "evidence": "MODELS.md, streamlit_version/app/indexing.py"
     },
     {
-      "id": "deep",
-      "label": "Deep Research",
+      "id": "agent",
+      "label": "Research Agent",
       "type": "orchestration",
       "layer": "analysis",
       "x": 70,
       "y": 76,
-      "description": "Асинхронный pipeline: перевод, генерация тематик, поиск, семантическая фильтрация, извлечение сущностей, кластеризация и отчет.",
-      "evidence": "DEEP_RESEARCH.md, navigate/ai_proc.py"
+      "description": "ИИ-агент сам планирует ответ, формирует поисковые запросы, итеративно уточняет поиск, оценивает полноту данных и при лимитах консультируется с пользователем.",
+      "evidence": "navigate/ai_proc.py, streamlit_version/app/rag_chat.py"
     },
     {
       "id": "graph",
-      "label": "Trace Graph",
-      "type": "visualization",
+      "label": "Knowledge Graph",
+      "type": "graph",
       "layer": "analysis",
       "x": 86,
       "y": 76,
-      "description": "Граф трассировки документов и сущностей Deep Research через DocumentMetaData, ProcessedDocuments и Vis.js.",
-      "evidence": "DEEP_RESEARCH.md, api/graph_views.py"
+      "description": "Граф знаний хранит сущности металлургической предметной области и связи между ними, помогает неподготовленному пользователю исследовать соседние факты и обогащает RAG-контекст.",
+      "evidence": "api/graph_views.py, public/media/graph_create.png"
     }
   ],
   "edges": [
@@ -116,9 +116,13 @@
     { "from": "vector", "to": "rerank", "modes": ["semantic"] },
     { "from": "fusion", "to": "rerank", "modes": ["hybrid"] },
     { "from": "rerank", "to": "llm", "modes": ["lexical", "semantic", "hybrid"] },
-    { "from": "router", "to": "deep", "modes": ["hybrid"] },
-    { "from": "deep", "to": "graph", "modes": ["hybrid"] },
-    { "from": "deep", "to": "llm", "modes": ["hybrid"] }
+    { "from": "store", "to": "graph", "modes": ["hybrid"] },
+    { "from": "graph", "to": "rerank", "modes": ["hybrid"] },
+    { "from": "router", "to": "agent", "modes": ["hybrid"] },
+    { "from": "agent", "to": "bm25", "modes": ["hybrid"] },
+    { "from": "agent", "to": "vector", "modes": ["hybrid"] },
+    { "from": "agent", "to": "graph", "modes": ["hybrid"] },
+    { "from": "agent", "to": "llm", "modes": ["hybrid"] }
   ],
   "layers": [
     { "id": "experience", "label": "Experience", "color": "#38d5ff" },
@@ -127,6 +131,6 @@
     { "id": "ranking", "label": "Fusion & ranking", "color": "#f5b85a" },
     { "id": "generation", "label": "Generation", "color": "#ff7a95" },
     { "id": "data", "label": "Data", "color": "#a7b4c8" },
-    { "id": "analysis", "label": "Deep Research", "color": "#72f2d7" }
+    { "id": "analysis", "label": "Agent & graph", "color": "#72f2d7" }
   ]
 }

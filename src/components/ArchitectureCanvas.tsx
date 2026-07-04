@@ -19,6 +19,7 @@ const nodeTone: Record<string, string> = {
   generation: 'border-rosex/45 bg-rosex/12 text-rosex',
   storage: 'border-slate-300/25 bg-slate-300/10 text-slate-300',
   visualization: 'border-cyanx/45 bg-cyanx/12 text-cyanx',
+  graph: 'border-mintx/50 bg-mintx/12 text-mintx',
 };
 
 export function ArchitectureCanvas({

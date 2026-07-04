@@ -14,14 +14,22 @@ flowchart LR
   Embeddings --> Vector
   BM25 --> RRF["Reciprocal Rank Fusion"]
   Vector --> RRF
+  DjangoDB --> Graph["Knowledge Graph"]
+  Indexing --> Graph
+  Graph --> Facts["Связи сущностей + факты"]
   RRF --> Context["Context selection"]
+  Facts --> Context
   Context --> LLM["OpenAI-compatible LLM"]
-  Router --> DR["Deep Research workflow"]
-  DR --> Stages["Stages + progress"]
-  DR --> Entities["Entity extraction + clustering"]
-  Stages --> Trace["Trace graph"]
-  Entities --> Report["Analytical report"]
+  Router --> Agent["ИИ-агент исследователь"]
+  Agent --> Plan["План ответа"]
+  Agent --> Queries["Самостоятельные запросы"]
+  Agent --> BM25
+  Agent --> Vector
+  Agent --> Graph
+  Plan --> Report["Аргументированный ответ"]
+  Queries --> Report
   LLM --> Answer["Answer with sources"]
+  Report --> Answer
 `;
 
 export function SystemSummary() {

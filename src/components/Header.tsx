@@ -22,7 +22,7 @@ export function Header({ activeId }: HeaderProps) {
           </span>
           <span>
             <span className="block text-sm font-semibold text-white">Sci-Steel Assistant</span>
-            <span className="block text-xs text-slate-400">Hybrid RAG architecture</span>
+            <span className="block text-xs text-slate-400">RAG + knowledge graph</span>
           </span>
         </a>
         <nav className="hidden items-center gap-1 md:flex">

@@ -35,7 +35,7 @@ export function ProblemSection() {
         </div>
         <div className="rounded bg-mintx/10 p-5">
           <p className="font-mono text-xs uppercase text-mintx">Hybrid system</p>
-          <p className="mt-3 text-sm text-slate-300">BM25 + vector search + RRF + context selection + graph trace.</p>
+          <p className="mt-3 text-sm text-slate-300">BM25 + vector search + факты из графа знаний + context selection.</p>
         </div>
       </div>
     </section>

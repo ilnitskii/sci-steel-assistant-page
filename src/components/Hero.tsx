@@ -10,12 +10,12 @@ export function Hero({ data }: HeroProps) {
   return (
     <section id="top" className="relative min-h-[92vh] overflow-hidden pt-16">
       <img
-        src="./media/world-map-overlay.jpg"
+        src="./media/metallurgy-hero.png"
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-20"
+        className="absolute inset-0 h-full w-full object-cover opacity-55"
       />
       <div className="absolute inset-0 hero-grid" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_25%,rgba(56,213,255,0.18),transparent_30%),radial-gradient(circle_at_20%_70%,rgba(81,225,184,0.11),transparent_26%),linear-gradient(180deg,rgba(7,16,24,0.25),#071018_86%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,16,24,0.94)_0%,rgba(7,16,24,0.74)_42%,rgba(7,16,24,0.24)_100%),linear-gradient(180deg,rgba(7,16,24,0.12),#071018_88%)]" />
       <div className="relative mx-auto flex min-h-[calc(92vh-4rem)] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
         <div className="max-w-4xl">
           <motion.p
@@ -40,8 +40,8 @@ export function Hero({ data }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.16 }}
           >
-            {data.subtitle}: интерактивная демонстрация гибридного поиска, Deep Research,
-            графа трассировки и LLM-ответов с источниками.
+            {data.subtitle}: интерактивная демонстрация трехуровневого поиска, построения
+            графа знаний и ответов с проверяемыми источниками.
           </motion.p>
           <motion.div
             className="mt-9 flex flex-wrap items-center gap-4"
@@ -53,21 +53,21 @@ export function Hero({ data }: HeroProps) {
               href="#architecture"
               className="inline-flex items-center gap-2 rounded-md bg-cyanx px-5 py-3 text-sm font-semibold text-ink shadow-glow transition hover:brightness-110"
             >
-              Explore Architecture
+              Смотреть архитектуру
               <ArrowDown size={16} />
             </a>
             <div className="flex items-center gap-5 text-sm text-slate-300">
               <span className="inline-flex items-center gap-2">
                 <Network size={16} className="text-mintx" />
-                Hybrid RAG
+                Гибридный RAG
               </span>
               <span className="inline-flex items-center gap-2">
                 <ShieldCheck size={16} className="text-amberx" />
-                Traceable DR
+                Граф знаний
               </span>
               <span className="inline-flex items-center gap-2">
                 <Sparkles size={16} className="text-rosex" />
-                AI reports
+                ИИ-агент
               </span>
             </div>
           </motion.div>

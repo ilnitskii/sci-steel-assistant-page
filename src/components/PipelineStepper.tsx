@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { deepResearchSteps, lifecycleSteps } from '../data/content';
+import { agentResearchSteps, lifecycleSteps } from '../data/content';
 
 export function PipelineStepper() {
   const [step, setStep] = useState(0);
@@ -40,10 +40,10 @@ export function PipelineStepper() {
           </div>
         </div>
         <div className="rounded-md border border-white/10 bg-white/[0.04] p-6">
-          <p className="font-mono text-xs uppercase text-mintx">Deep Research route</p>
-          <h3 className="mt-3 text-2xl font-semibold text-white">Асинхронный аналитический workflow</h3>
+          <p className="font-mono text-xs uppercase text-mintx">Research agent route</p>
+          <h3 className="mt-3 text-2xl font-semibold text-white">Автономное исследование вопроса</h3>
           <div className="mt-5 grid gap-2">
-            {deepResearchSteps.map((item, index) => (
+            {agentResearchSteps.map((item, index) => (
               <div key={item} className="flex items-center gap-3 text-sm text-slate-300">
                 <span className="h-1.5 w-1.5 rounded-full bg-mintx" />
                 <span className="font-mono text-xs text-slate-500">{String(index + 1).padStart(2, '0')}</span>
