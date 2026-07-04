@@ -1,6 +1,6 @@
 {
   "systemName": "Sci-Steel Assistant",
-  "subtitle": "Hybrid RAG Knowledge System для СИПАД Navigate",
+  "subtitle": "Гибридная RAG база знаний металлургии",
   "version": "hackathon architecture demo",
   "nodes": [
     {
@@ -10,7 +10,7 @@
       "layer": "experience",
       "x": 6,
       "y": 42,
-      "description": "Пользовательский вопрос, поисковая фраза или запрос Deep Research из Streamlit UI / Django templates.",
+      "description": "Пользовательский вопрос, поисковая фраза или запрос Deep Research из интерфейса (Django).",
       "evidence": "streamlit_version/streamlit_app.py, navigate/views.py"
     },
     {
