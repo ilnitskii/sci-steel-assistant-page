@@ -1,0 +1,34 @@
+[
+  {
+    "id": "overview",
+    "eyebrow": "01 / Core",
+    "title": "Гибридный RAG поверх документных массивов и патентов",
+    "body": "Система совмещает строгий keyword retrieval с семантическим поиском, затем собирает контекст для LLM и сохраняет трассировку аналитического процесса.",
+    "activeNodes": ["user", "router", "bm25", "vector", "fusion", "rerank", "llm"],
+    "mode": "hybrid"
+  },
+  {
+    "id": "keyword",
+    "eyebrow": "02 / Lexical",
+    "title": "BM25 нужен там, где важны термины, номера и точные совпадения",
+    "body": "Tantivy и Elasticsearch хорошо держат запросы по классификаторам, названиям проектов, патентным номерам и обязательным словам.",
+    "activeNodes": ["router", "bm25", "store", "rerank"],
+    "mode": "lexical"
+  },
+  {
+    "id": "semantic",
+    "eyebrow": "03 / Semantic",
+    "title": "Vector retrieval закрывает разрыв между словами пользователя и языком документов",
+    "body": "ChromaDB и embeddings поднимают релевантные фрагменты даже при несовпадении лексики: материалы, процессы, свойства и близкие научные формулировки.",
+    "activeNodes": ["router", "vector", "store", "rerank"],
+    "mode": "semantic"
+  },
+  {
+    "id": "deep-research",
+    "eyebrow": "04 / Research",
+    "title": "Deep Research превращает поиск в воспроизводимое исследование",
+    "body": "Пайплайн переводит запрос, генерирует темы, ищет документы, фильтрует по странам и семантике, извлекает сущности, дедуплицирует их и формирует отчет.",
+    "activeNodes": ["router", "deep", "graph", "llm", "store"],
+    "mode": "hybrid"
+  }
+]

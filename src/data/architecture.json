@@ -1,0 +1,132 @@
+{
+  "systemName": "Sci-Steel Assistant",
+  "subtitle": "Hybrid RAG Knowledge System для СИПАД Navigate",
+  "version": "hackathon architecture demo",
+  "nodes": [
+    {
+      "id": "user",
+      "label": "Query Input",
+      "type": "interface",
+      "layer": "experience",
+      "x": 6,
+      "y": 42,
+      "description": "Пользовательский вопрос, поисковая фраза или запрос Deep Research из Streamlit UI / Django templates.",
+      "evidence": "streamlit_version/streamlit_app.py, navigate/views.py"
+    },
+    {
+      "id": "router",
+      "label": "Query Router",
+      "type": "orchestration",
+      "layer": "control",
+      "x": 22,
+      "y": 42,
+      "description": "Разводит запрос по режимам: строгий keyword-only поиск, semantic retrieval, hybrid RAG или Deep Research workflow.",
+      "evidence": "streamlit_version/app/retrieval.py, navigate/ai_proc.py"
+    },
+    {
+      "id": "bm25",
+      "label": "BM25 / Elastic",
+      "type": "retriever",
+      "layer": "retrieval",
+      "x": 38,
+      "y": 24,
+      "description": "Лексический контур: Tantivy BM25 в RAG-прототипе и Elasticsearch simple_query_string в Navigate.",
+      "evidence": "streamlit_version/app/elastic_repo.py, navigate/search.py"
+    },
+    {
+      "id": "vector",
+      "label": "Vector Search",
+      "type": "retriever",
+      "layer": "retrieval",
+      "x": 38,
+      "y": 60,
+      "description": "Семантический контур: ChromaDB с cosine HNSW и embeddings bge-m3 / OpenAI-compatible / hashing fallback.",
+      "evidence": "streamlit_version/app/chroma_repo.py, streamlit_version/app/embeddings.py"
+    },
+    {
+      "id": "fusion",
+      "label": "Fusion Layer",
+      "type": "fusion",
+      "layer": "ranking",
+      "x": 55,
+      "y": 42,
+      "description": "Reciprocal Rank Fusion объединяет ранжированные списки BM25 и vector retrieval, сохраняя устойчивость к провалам отдельного индекса.",
+      "evidence": "streamlit_version/app/retrieval.py"
+    },
+    {
+      "id": "rerank",
+      "label": "Rerank / Context Select",
+      "type": "ranking",
+      "layer": "ranking",
+      "x": 70,
+      "y": 42,
+      "description": "Отбирает контекстные чанки с учетом score и веса секций: abstract, description, claims, keywords, title.",
+      "evidence": "streamlit_version/app/rag_chat.py"
+    },
+    {
+      "id": "llm",
+      "label": "LLM Generator",
+      "type": "generation",
+      "layer": "generation",
+      "x": 86,
+      "y": 42,
+      "description": "OpenAI-compatible Chat Completions: локальная LM Studio модель или внешний endpoint. Ответ строится с пронумерованными источниками.",
+      "evidence": "streamlit_version/app/rag_chat.py, navigate/llm_client.py"
+    },
+    {
+      "id": "store",
+      "label": "Knowledge Store",
+      "type": "storage",
+      "layer": "data",
+      "x": 38,
+      "y": 86,
+      "description": "CSV, Django/MS SQL/SQLite модели, патентные данные, ChromaDB, Tantivy/Elasticsearch индексы и метаданные источников.",
+      "evidence": "MODELS.md, streamlit_version/app/indexing.py"
+    },
+    {
+      "id": "deep",
+      "label": "Deep Research",
+      "type": "orchestration",
+      "layer": "analysis",
+      "x": 70,
+      "y": 76,
+      "description": "Асинхронный pipeline: перевод, генерация тематик, поиск, семантическая фильтрация, извлечение сущностей, кластеризация и отчет.",
+      "evidence": "DEEP_RESEARCH.md, navigate/ai_proc.py"
+    },
+    {
+      "id": "graph",
+      "label": "Trace Graph",
+      "type": "visualization",
+      "layer": "analysis",
+      "x": 86,
+      "y": 76,
+      "description": "Граф трассировки документов и сущностей Deep Research через DocumentMetaData, ProcessedDocuments и Vis.js.",
+      "evidence": "DEEP_RESEARCH.md, api/graph_views.py"
+    }
+  ],
+  "edges": [
+    { "from": "user", "to": "router", "modes": ["lexical", "semantic", "hybrid"] },
+    { "from": "router", "to": "bm25", "modes": ["lexical", "hybrid"] },
+    { "from": "router", "to": "vector", "modes": ["semantic", "hybrid"] },
+    { "from": "store", "to": "bm25", "modes": ["lexical", "hybrid"] },
+    { "from": "store", "to": "vector", "modes": ["semantic", "hybrid"] },
+    { "from": "bm25", "to": "fusion", "modes": ["hybrid"] },
+    { "from": "vector", "to": "fusion", "modes": ["hybrid"] },
+    { "from": "bm25", "to": "rerank", "modes": ["lexical"] },
+    { "from": "vector", "to": "rerank", "modes": ["semantic"] },
+    { "from": "fusion", "to": "rerank", "modes": ["hybrid"] },
+    { "from": "rerank", "to": "llm", "modes": ["lexical", "semantic", "hybrid"] },
+    { "from": "router", "to": "deep", "modes": ["hybrid"] },
+    { "from": "deep", "to": "graph", "modes": ["hybrid"] },
+    { "from": "deep", "to": "llm", "modes": ["hybrid"] }
+  ],
+  "layers": [
+    { "id": "experience", "label": "Experience", "color": "#38d5ff" },
+    { "id": "control", "label": "Control", "color": "#8d7cff" },
+    { "id": "retrieval", "label": "Retrieval", "color": "#51e1b8" },
+    { "id": "ranking", "label": "Fusion & ranking", "color": "#f5b85a" },
+    { "id": "generation", "label": "Generation", "color": "#ff7a95" },
+    { "id": "data", "label": "Data", "color": "#a7b4c8" },
+    { "id": "analysis", "label": "Deep Research", "color": "#72f2d7" }
+  ]
+}
